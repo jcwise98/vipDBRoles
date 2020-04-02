@@ -1,65 +1,131 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Welcome to Firebase Hosting</title>
 
-    <!-- update the version number as needed -->
-    <script defer src="/__/firebase/7.13.1/firebase-app.js"></script>
-    <!-- include only the Firebase features as you need -->
-    <script defer src="/__/firebase/7.13.1/firebase-auth.js"></script>
-    <script defer src="/__/firebase/7.13.1/firebase-database.js"></script>
-    <script defer src="/__/firebase/7.13.1/firebase-messaging.js"></script>
-    <script defer src="/__/firebase/7.13.1/firebase-storage.js"></script>
-    <!-- initialize the SDK after all desired features are loaded -->
-    <script defer src="/__/firebase/init.js"></script>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <title>Welcome to our VIP page</title>
 
-    <style media="screen">
-      body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
-      #message { background: white; max-width: 360px; margin: 100px auto 16px; padding: 32px 24px; border-radius: 3px; }
-      #message h2 { color: #ffa100; font-weight: bold; font-size: 16px; margin: 0 0 8px; }
-      #message h1 { font-size: 22px; font-weight: 300; color: rgba(0,0,0,0.6); margin: 0 0 16px;}
-      #message p { line-height: 140%; margin: 16px 0 24px; font-size: 14px; }
-      #message a { display: block; text-align: center; background: #039be5; text-transform: uppercase; text-decoration: none; color: white; padding: 16px; border-radius: 4px; }
-      #message, #message a { box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); }
-      #load { color: rgba(0,0,0,0.4); text-align: center; font-size: 13px; }
-      @media (max-width: 600px) {
-        body, #message { margin-top: 0; background: white; box-shadow: none; }
-        body { border-top: 16px solid #ffa100; }
-      }
-    </style>
-  </head>
-  <body>
-    <div id="message">
-      <h2>Welcome, this is a test</h2>
-      <h1>Firebase Hosting Setup Complete</h1>
-      <p>You're seeing this because you've successfully setup Firebase Hosting. Now it's time to go build something extraordinary!</p>
-      <a target="_blank" href="https://firebase.google.com/docs/hosting/">Open Hosting Documentation</a>
+  <!-- update the version number as needed
+  <script defer src="/__/firebase/7.13.1/firebase-app.js"></script>
+  <!-- include only the Firebase features as you need
+  <script defer src="/__/firebase/7.13.1/firebase-auth.js"></script>
+  <script defer src="/__/firebase/7.13.1/firebase-database.js"></script>
+  <script defer src="/__/firebase/7.13.1/firebase-messaging.js"></script>
+  <script defer src="/__/firebase/7.13.1/firebase-storage.js"></script>
+  <!-- initialize the SDK after all desired features are loaded
+  <script defer src="/__/firebase/init.js"></script>
+  -->
+
+  <script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-database.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-auth.js"></script>
+
+</head>
+
+<body>
+
+  <div id="message">
+    <h2>Welcome, this is a test for our VIP survey</h2>
+    <div class="login">
+      <div class="login-triangle"></div>
+
+      <h2 class="register-header">Register</h2>
+
+      <form class="register-container" id="registerForm">
+        <p><input id="registerEmail" type="email" placeholder="Email"></p>
+        <p><input id="registerPassword" type="password" placeholder="Password"></p>
+        <p><input type="submit" value="Register"></p>
+      </form>
+
+      <h2 class="login-header">Log in</h2>
+
+      <form class="login-container" id="loginForm">
+        <p><input id="loginEmail" type="email" placeholder="Email"></p>
+        <p><input id="loginPassword" type="password" placeholder="Password"></p>
+        <p><input type="submit" value="Log in"></p>
+      </form>
+
+      <button id="logoutbtn">Log Out</button>
     </div>
-    <p id="load">Firebase SDK Loading&hellip;</p>
 
     <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
-        // // The Firebase SDK is initialized and available here!
-        //
-        // firebase.auth().onAuthStateChanged(user => { });
-        // firebase.database().ref('/path/to/ref').on('value', snapshot => { });
-        // firebase.messaging().requestPermission().then(() => { });
-        // firebase.storage().ref('/path/to/ref').getDownloadURL().then(() => { });
-        //
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
+      var firebaseConfig = {
+        apiKey: "AIzaSyCUJPYA_DJzM1CKBXlCGWoIy2RPW338GSo",
+        authDomain: "vipdbroles.firebaseapp.com",
+        databaseURL: "https://vipdbroles.firebaseio.com",
+        projectId: "vipdbroles",
+        storageBucket: "vipdbroles.appspot.com",
+        messagingSenderId: "494762739659",
+        appId: "1:494762739659:web:0d08d3585dd10d51ac584e"
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
 
-        try {
-          let app = firebase.app();
-          let features = ['auth', 'database', 'messaging', 'storage'].filter(feature => typeof app[feature] === 'function');
-          document.getElementById('load').innerHTML = `Firebase SDK loaded with ${features.join(', ')}`;
-        } catch (e) {
-          console.error(e);
-          document.getElementById('load').innerHTML = 'Error loading the Firebase SDK, check the console.';
+      $(document).ready(function () {
+        $("#registerForm").on("submit", function (event) {
+          event.preventDefault();
+
+          var email = $("#registerEmail").val();
+          var password = $("#registerPassword").val();
+
+          console.log(email);
+          console.log(password);
+          firebase.auth().createUserWithEmailAndPassword(email, password)
+            .then(function (user) {
+              console.log(user);
+            })
+            .catch(function (err) {
+              console.log(err);
+            });
+          //location.reload();
+        });
+      });
+
+      $("#loginForm").on("submit", function (event) {
+        event.preventDefault();
+
+        var email = $("#loginEmail").val();
+        var password = $("#loginPassword").val();
+
+        firebase.auth().signInWithEmailAndPassword(email, password)
+          .then(function (user) {
+            console.log(user);
+          })
+          .catch(function (err) {
+            console.log(err);
+          });
+        //location.reload();
+      });
+
+      $("#logoutbtn").on("click", function () {
+        firebase.auth().signOut().then(function () {
+          alert("Goodbye!");
+          // Sign-out successful.
+        }).catch(function (error) {
+          // An error happened.
+        });
+      });
+
+      firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+          console.log(user);
+          var email = user.email;
+          alert("Welcome " + email);
+          //document.getElementById('welcomeMsg').innerHTML = "Welcome " + email + "!";
+        } else {
+          // No user is signed in.
+          console.log("No user");
+          //document.getElementById('welcomeMsg').innerHTML = "Hello Guest! Log in to post and comment"
         }
       });
+
+
     </script>
-  </body>
+
+</body>
+
 </html>
