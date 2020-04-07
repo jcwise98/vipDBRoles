@@ -23,13 +23,39 @@
   <script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-database.js"></script>
   <script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-auth.js"></script>
+  <style>
+    .button {
+      background-color: #4CAF50;
+      /* Green */
+      border: none;
+      /*color: white;*/
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+    }
 
+    .adminbutton {
+      background-color: #f44336;
+    }
+
+    body {
+      background-color: black;
+      color: white;
+    }
+
+    /* Red */
+  </style>
 </head>
 
 <body>
 
   <div id="message">
     <h2>Welcome, this is a test for our VIP survey</h2>
+    <div id="user-message"></div>
     <div class="login">
       <div class="login-triangle"></div>
 
@@ -38,7 +64,7 @@
       <form class="register-container" id="registerForm">
         <p><input id="registerEmail" type="email" placeholder="Email"></p>
         <p><input id="registerPassword" type="password" placeholder="Password"></p>
-        <p><input type="submit" value="Register"></p>
+        <p><input type="submit" value="Register" style="color: black;"></p>
       </form>
 
       <h2 class="login-header">Log in</h2>
@@ -46,10 +72,14 @@
       <form class="login-container" id="loginForm">
         <p><input id="loginEmail" type="email" placeholder="Email"></p>
         <p><input id="loginPassword" type="password" placeholder="Password"></p>
-        <p><input type="submit" value="Log in"></p>
+        <p><input type="submit" value="Log in" style="color: black;"></p>
       </form>
 
-      <button id="logoutbtn">Log Out</button>
+      <button id="logoutbtn" style="color: black;">Log Out</button>
+      <div>
+        <button class="button userbutton" id="userbtn">User Button</button>
+        <button class="button adminbutton" id="adminbtn">Admin Button</button>
+      </div>
     </div>
 
     <script>
@@ -72,57 +102,93 @@
           var email = $("#registerEmail").val();
           var password = $("#registerPassword").val();
 
-          console.log(email);
-          console.log(password);
+          //console.log(email);
+          //console.log(password);
           firebase.auth().createUserWithEmailAndPassword(email, password)
             .then(function (user) {
-              console.log(user);
+              //console.log(user);
+              //console.log(user.user.uid);
+              firebase.database().ref().child("users/" + user.user.uid).set({
+                email: user.user.email,
+                role: "user"
+              })
+              //location.reload();
             })
             .catch(function (err) {
               console.log(err);
+              alert(err);
+            });
+        });
+
+
+        $("#loginForm").on("submit", function (event) {
+          event.preventDefault();
+
+          var email = $("#loginEmail").val();
+          var password = $("#loginPassword").val();
+
+          firebase.auth().signInWithEmailAndPassword(email, password)
+            .then(function (user) {
+              console.log(user);
+              location.reload();
+            })
+            .catch(function (err) {
+              console.log(err);
+              alert(err);
             });
           //location.reload();
         });
-      });
 
-      $("#loginForm").on("submit", function (event) {
-        event.preventDefault();
-
-        var email = $("#loginEmail").val();
-        var password = $("#loginPassword").val();
-
-        firebase.auth().signInWithEmailAndPassword(email, password)
-          .then(function (user) {
-            console.log(user);
-          })
-          .catch(function (err) {
-            console.log(err);
+        $("#logoutbtn").on("click", function () {
+          firebase.auth().signOut().then(function () {
+            //alert("Goodbye!");
+            // Sign-out successful.
+            location.reload();
+          }).catch(function (error) {
+            // An error happened.
           });
-        //location.reload();
-      });
+        });
 
-      $("#logoutbtn").on("click", function () {
-        firebase.auth().signOut().then(function () {
-          alert("Goodbye!");
-          // Sign-out successful.
-        }).catch(function (error) {
-          // An error happened.
+        $("#userbtn").on("click", function () {
+          var user = firebase.auth().currentUser;
+          if (user) {
+            alert("Congrats. You're logged in.");
+          } else {
+            alert("Sorry dude. Gotta log in first.");
+          }
+        });
+
+        $("#adminbtn").on("click", function () {
+          var user = firebase.auth().currentUser;
+          if (user) {
+            var userRef = firebase.database().ref("users/" + user.uid + "/role");
+            //alert("Congrats. You're logged in.");
+            userRole = userRef.once("value", function (snapshot) {
+              var data = snapshot.val();
+              if (!data.localeCompare("admin")) {
+                alert("Congrats. You're an admin!");
+              } else {
+                alert("You're not an admin");
+              }
+            });
+          } else {
+            alert("Sorry dude. Gotta log in first.");
+          }
+        });
+
+        firebase.auth().onAuthStateChanged(function (user) {
+          if (user) {
+            console.log(user);
+            var email = user.email;
+            document.getElementById("user-message").innerHTML = "Logged in as " + user.email;
+            //alert("Welcome " + email);
+          } else {
+            // No user is signed in.
+            console.log("No user");
+            //alert("Currently logged out");
+          }
         });
       });
-
-      firebase.auth().onAuthStateChanged(function (user) {
-        if (user) {
-          console.log(user);
-          var email = user.email;
-          alert("Welcome " + email);
-          //document.getElementById('welcomeMsg').innerHTML = "Welcome " + email + "!";
-        } else {
-          // No user is signed in.
-          console.log("No user");
-          //document.getElementById('welcomeMsg').innerHTML = "Hello Guest! Log in to post and comment"
-        }
-      });
-
 
     </script>
 
