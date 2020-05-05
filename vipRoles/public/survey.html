@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <title>Welcome to our VIP page</title>
+
+    <!-- update the version number as needed
+  <script defer src="/__/firebase/7.13.1/firebase-app.js"></script>
+  <!-- include only the Firebase features as you need
+  <script defer src="/__/firebase/7.13.1/firebase-auth.js"></script>
+  <script defer src="/__/firebase/7.13.1/firebase-database.js"></script>
+  <script defer src="/__/firebase/7.13.1/firebase-messaging.js"></script>
+  <script defer src="/__/firebase/7.13.1/firebase-storage.js"></script>
+  <!-- initialize the SDK after all desired features are loaded
+  <script defer src="/__/firebase/init.js"></script>
+  -->
+
+    <script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-auth.js"></script>
+    <style>
+        .button {
+            background-color: #4CAF50;
+            /* Green */
+            border: none;
+            /*color: white;*/
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+
+        .backbutton {
+            background-color: #f44336;
+        }
+
+        body {
+            background: rgb(9, 9, 9);
+            background: linear-gradient(90deg, rgba(9, 9, 9, 1) 0%, rgba(0, 0, 0, 1) 20%, rgba(128, 0, 0, 1) 50%, rgba(0, 0, 0, 1) 80%, rgba(25, 25, 25, 1) 100%);
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="message">
+        <h2>Welcome, this is a test for our VIP survey</h2>
+        <button class="button backbutton" id="backbtn">Back to Main Page</button>
+
+        <div id="survey1">
+            <span>Success!</span>
+        </div>
+    </div>
+
+
+
+    <script>
+        var firebaseConfig = {
+            apiKey: "AIzaSyCUJPYA_DJzM1CKBXlCGWoIy2RPW338GSo",
+            authDomain: "vipdbroles.firebaseapp.com",
+            databaseURL: "https://vipdbroles.firebaseio.com",
+            projectId: "vipdbroles",
+            storageBucket: "vipdbroles.appspot.com",
+            messagingSenderId: "494762739659",
+            appId: "1:494762739659:web:0d08d3585dd10d51ac584e"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        $(document).ready(function () {
+            // Get URL
+            var url = window.location.search.substring(1);
+            // Get DIV
+            var msg = document.getElementById('survey1');
+            // Check if URL contains the keyword
+            if (url.localeCompare("survey1")) {
+                // Display the message
+                msg.innerHTML = "Survey: " + "[" + url + "]" + " does not exist!";
+            }
+
+            $("#backbtn").on("click", function () {
+                window.location.href = 'https://vipdbroles.firebaseapp.com/index.html'//put url here
+            });
+        });
+
+    </script>
+
+</body>
+
+</html>

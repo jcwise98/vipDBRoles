@@ -42,9 +42,67 @@
       background-color: #f44336;
     }
 
+    .userlistbutton {
+      background-color: blue;
+
+
+    }
+    
+    .createsurveybutton {
+      background-color: orange;
+    
+
+    }.viewsurveysbutton{
+      background-color: purple;
+    }
+
     body {
-      background-color: black;
+      background: rgb(9, 9, 9);
+      background: linear-gradient(90deg, rgba(9, 9, 9, 1) 0%, rgba(0, 0, 0, 1) 20%, rgba(128, 0, 0, 1) 50%, rgba(0, 0, 0, 1) 80%, rgba(25, 25, 25, 1) 100%);
       color: white;
+    }
+
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #f1f1f1;
+      color: black;
+      min-width: 160px;
+      overflow: auto;
+      box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+      z-index: 1;
+    }
+
+    .dropdown-content a {
+      color: black;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+    }
+
+    .dropdown a:hover {
+      background-color: #ddd;
+    }
+
+    .show {
+      display: block;
+    }
+
+    .userlist-toggle {
+      display: none;
+    }
+
+    .surveyslist-toggle {
+      display: none;
+    }
+
+    .userlist-toggle a {
+      display: block;
     }
 
     /* Red */
@@ -62,16 +120,16 @@
       <h2 class="register-header">Register</h2>
 
       <form class="register-container" id="registerForm">
-        <p><input id="registerEmail" type="email" placeholder="Email"></p>
-        <p><input id="registerPassword" type="password" placeholder="Password"></p>
+        <p><input id="registerEmail" type="email" placeholder="Email" style="color: black;"></p>
+        <p><input id="registerPassword" type="password" placeholder="Password" style="color: black;"></p>
         <p><input type="submit" value="Register" style="color: black;"></p>
       </form>
 
       <h2 class="login-header">Log in</h2>
 
       <form class="login-container" id="loginForm">
-        <p><input id="loginEmail" type="email" placeholder="Email"></p>
-        <p><input id="loginPassword" type="password" placeholder="Password"></p>
+        <p><input id="loginEmail" type="email" placeholder="Email" style="color: black;"></p>
+        <p><input id="loginPassword" type="password" placeholder="Password" style="color: black;"></p>
         <p><input type="submit" value="Log in" style="color: black;"></p>
       </form>
 
@@ -79,8 +137,45 @@
       <div>
         <button class="button userbutton" id="userbtn">User Button</button>
         <button class="button adminbutton" id="adminbtn">Admin Button</button>
+        <button class="button userlistbutton" id="usrlistbtn">Users List</button>
+        <button class = "button createsurveybutton" id="createsurveybtn">Create Survey</button>
+        <button class ="button viewsurveysbutton" id="viewsurveysbtn">View Surveys</button>
+
+        <div id="userlist" class=userlist-toggle>
+          <li>User 1</li>
+          <li>User 2</li>
+          <div class="dropdown">
+            <button onclick="myFunction()" class="dropbtn" style="color: black;">Set Role</button>
+            <form>
+              <select id="myDropdown" class="dropdown-content" onchange="this.form.submit()">
+                <option value="">select a role</option>
+                <option value="user">User</option>
+                <option value="admin">Admin</option>
+              </select>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div id="surveyslist" class=surveyslist-toggle>
+      <li> <a href="survey.html?survey1">Survey 1</a> </li>
+      <li> <a href="survey.html?survey2">Survey 2</a> </li>
+        <div class="dropdown">
+          <button onclick="myFunction2()" class="dropbtn2" style="color: black;">Select a Survey</button>
+          <form>
+            <select id="myDropdown2" class="dropdown-content" onchange="this.form.submit()">
+              <option value="">select a survey to view</option>
+              <option value="Survey1">Survey 1</option>
+              <option value="Survey2">Survey 2</option>
+            </select>
+          </form>
+        </div>
       </div>
     </div>
+
+    </div>
+
+
 
     <script>
       var firebaseConfig = {
@@ -94,6 +189,43 @@
       };
       // Initialize Firebase
       firebase.initializeApp(firebaseConfig);
+
+
+      function myFunction() {
+        document.getElementById("myDropdown").classList.toggle("show");
+      }
+
+      window.onclick = function (event) {
+        if (!event.target.matches('.dropbtn')) {
+          var dropdowns = document.getElementsByClassName("dropdown-content");
+          var i;
+          for (i = 0; i < dropdowns.length; i++) {
+            var openDropdown = dropdowns[i];
+            if (openDropdown.classList.contains('show')) {
+              openDropdown.classList.remove('show');
+            }
+          }
+        }
+      }
+
+      function myFunction2() {
+        document.getElementById("myDropdown2").classList.toggle("show");
+      }
+
+      window.onclick = function (event) {
+        if (!event.target.matches('.dropbtn2')) {
+          var dropdowns = document.getElementsByClassName("dropdown-content");
+          var i;
+          for (i = 0; i < dropdowns.length; i++) {
+            var openDropdown = dropdowns[i];
+            if (openDropdown.classList.contains('show')) {
+              openDropdown.classList.remove('show');
+            }
+          }
+        }
+      }
+
+
 
       $(document).ready(function () {
         $("#registerForm").on("submit", function (event) {
@@ -152,7 +284,7 @@
         $("#userbtn").on("click", function () {
           var user = firebase.auth().currentUser;
           if (user) {
-            alert("Congrats. You're logged in.");
+            alert("Congrats. You're a user.");
           } else {
             alert("Sorry dude. Gotta log in first.");
           }
@@ -176,6 +308,62 @@
           }
         });
 
+        $("#usrlistbtn").on("click", function () {
+          var user = firebase.auth().currentUser;
+          if (user) {
+            var userRef = firebase.database().ref("users/" + user.uid + "/role");
+            //alert("Congrats. You're logged in.");
+            userRole = userRef.once("value", function (snapshot) {
+              var data = snapshot.val();
+              if (!data.localeCompare("admin")) {
+                document.getElementById("userlist").classList.toggle("show");
+              } else {
+                alert("You must be an admin to view this information");
+              }
+            });
+          } else {
+            alert("Sorry dude. Gotta log in first.");
+          }
+        });
+
+        $("#createsurveybtn").on("click", function () {
+          var user = firebase.auth().currentUser;
+          if (user) {
+            var userRef = firebase.database().ref("users/" + user.uid + "/role");
+            //alert("Congrats. You're logged in.");
+            userRole = userRef.once("value", function (snapshot) {
+              var data = snapshot.val();
+              if (!data.localeCompare("admin")) {
+                // send to survey creation page
+                //window.location.href = 'https://vipdbroles.firebaseapp.com/survey.html'//put url here
+              } else {
+                alert("You must be an admin to access this page");
+              }
+            });
+          } else {
+            alert("Sorry dude. Gotta log in first.");
+          }
+        });
+
+        $("#viewsurveysbtn").on("click", function () {
+          var user = firebase.auth().currentUser;
+          if (user) {
+            var userRef = firebase.database().ref("users/" + user.uid + "/role");
+            //alert("Congrats. You're logged in.");
+            userRole = userRef.once("value", function (snapshot) {
+              var data = snapshot.val();
+              if (!data.localeCompare("admin")) {
+                document.getElementById("surveyslist").classList.toggle("show");
+              } else {
+                alert("You must be an admin to view the surveys");
+              }
+            });
+          } else {
+            alert("Sorry dude. Gotta log in first.");
+          }
+        });
+
+
         firebase.auth().onAuthStateChanged(function (user) {
           if (user) {
             console.log(user);
@@ -188,6 +376,8 @@
             //alert("Currently logged out");
           }
         });
+
+
       });
 
     </script>
