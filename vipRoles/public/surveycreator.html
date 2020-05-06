@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <title>Welcome to our VIP page</title>
+
+    <!-- update the version number as needed
+  <script defer src="/__/firebase/7.13.1/firebase-app.js"></script>
+  <!-- include only the Firebase features as you need
+  <script defer src="/__/firebase/7.13.1/firebase-auth.js"></script>
+  <script defer src="/__/firebase/7.13.1/firebase-database.js"></script>
+  <script defer src="/__/firebase/7.13.1/firebase-messaging.js"></script>
+  <script defer src="/__/firebase/7.13.1/firebase-storage.js"></script>
+  <!-- initialize the SDK after all desired features are loaded
+  <script defer src="/__/firebase/init.js"></script>
+  -->
+
+    <script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-auth.js"></script>
+    <style>
+        .button {
+            background-color: #4CAF50;
+            /* Green */
+            border: none;
+            /*color: white;*/
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+
+        .backbutton {
+            background-color: #f44336;
+        }
+
+        body {
+            background: rgb(9, 9, 9);
+            background: linear-gradient(90deg, rgba(9, 9, 9, 1) 0%, rgba(0, 0, 0, 1) 20%, rgba(128, 0, 0, 1) 50%, rgba(0, 0, 0, 1) 80%, rgba(25, 25, 25, 1) 100%);
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="message">
+        <h2>Welcome, this is a test for our VIP survey creation page</h2>
+        <button class="button backbutton" id="backbtn">Back to Main Page</button>
+
+        <div id="survey1">
+            <span>Success!</span>
+        </div>
+    </div>
+
+
+
+    <script>
+        var firebaseConfig = {
+            apiKey: "AIzaSyCUJPYA_DJzM1CKBXlCGWoIy2RPW338GSo",
+            authDomain: "vipdbroles.firebaseapp.com",
+            databaseURL: "https://vipdbroles.firebaseio.com",
+            projectId: "vipdbroles",
+            storageBucket: "vipdbroles.appspot.com",
+            messagingSenderId: "494762739659",
+            appId: "1:494762739659:web:0d08d3585dd10d51ac584e"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        $(document).ready(function () {
+            // Get URL
+            var url = window.location.search.substring(1);
+            // Get DIV
+            var msg = document.getElementById('survey1');
+            // Check if URL contains the keyword
+            if (url.localeCompare("survey1")) {
+                // Display the message
+                msg.innerHTML = "Survey: " + "[" + url + "]" + " does not exist!";
+            }
+
+            $("#backbtn").on("click", function () {
+                window.location.href = 'https://vipdbroles.firebaseapp.com/index.html'//put url here
+            });
+        });
+    </script>
+
+<html lang="en" class=" -webkit-"><head>
+    <meta charset="UTF-8">
+    <title>Survey Creator Tool</title>
+<style>
+* {
+    -webkit-user-select: none;
+    margin: 0;
+    padding: 0;
+    font-family: 'Open Sans', sans-serif;
+}
+
+body {
+    position: relative;
+    background-color: #262626;
+}
+
+.cont {
+    width: 800px;
+    display: table;
+    height: 0;
+    margin: 60px auto;
+    box-shadow: 0 0 0 0 #222;
+    table-layout: fixed;
+}
+
+.left,
+.right {
+    display: table-cell;
+}
+
+.right {
+    vertical-align: top;
+    width: 30%;
+    background-color: #404040;
+}
+
+.logo {
+    line-height: 60px;
+    height: 60px;
+    box-sizing: border-box;
+    padding: 0 26px;
+    color: white;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+header {
+    background-color: #E74C3C;
+}
+
+.form_section {
+    background-color: #fff;
+    min-height: 400px;
+    position: relative;
+    overflow: auto;
+}
+
+.noSurvey {
+    width: 230px;
+    text-align: center;
+    color: #555;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.noSurvey > p {
+    border: 4px dashed #aaa;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.noSurvey .btn {
+    background-color: #3498DB;
+    color: #ECF0F1;
+    padding: 7px;
+    width: 120px;
+    margin: 20px auto;
+    cursor: pointer;
+}
+
+.noSurvey .btn:hover,
+.noSurvey .btn:active {
+    background-color: #2980B9;
+}
+
+.right {
+    position: relative;
+}
+
+.right > .title {
+    top: -35px;
+    position: absolute;
+    left: 100%;
+    transform-origin: left bottom;
+    transform: rotate(90deg);
+    text-transform: uppercase;
+    font-size: 14px;
+    padding: 8px;
+    background-color: rgba(0, 0, 0, 0.3);
+    color: #fff;
+    margin-bottom: 6px;
+}
+
+.surveyList {
+    overflow: auto;
+    height: 100%;
+}
+
+.surveyItem {
+    background-color: rgba(0, 0, 0, 0.3);
+    color: #fff;
+    box-sizing: border-box;
+    padding: 8px;
+    margin: 9px;
+}
+
+.surveyItem:hover {
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.surveyItem .title {
+    display: inline-block;
+    width: 80%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.surveyItem .icon {
+    float: right;
+    padding: 2px;
+}
+
+.surveyItem .icon svg {
+    width: 12px;
+    fill: white;
+}
+
+.surveyItem.create {
+    background-color: transparent;
+    box-sizing: border-box;
+    border: 1px dashed #888;
+}
+
+.surveyItem.create:hover {
+    border-color: #fff;
+}
+
+.left .form_section {
+    box-sizing: border-box;
+    padding: 20px;
+}
+
+.left .form_section label {
+    margin-bottom: 20px;
+    display: block;
+}
+
+.left .form_section input[type='text'],
+.left .form_section textarea,
+.left .form_section input[type="number"] {
+    padding: 10px;
+    font-size: 17px;
+    width: 100%;
+    box-sizing: border-box;
+    outline: none;
+    border: 1px solid #ddd;
+    margin-top: 4px;
+    resize: none;
+}
+
+.left .form_section textarea {
+    height: 150px;
+}
+
+.buttons .btn {
+    cursor: pointer;
+    float: left;
+    width: 120px;
+    background-color:blue;
+    text-align: center;
+    padding: 14px;
+    border-radius: 2px;
+    margin: auto;
+    opacity: .9;
+}
+
+.buttons .btn:hover,
+.buttons .btn:active {
+    opacity: 1;
+}
+
+.buttons .btn:nth-child(2) {
+    margin: 0 14%;
+}
+
+
+/*.buttons .json_btn {
+    background-color: #E74C3C;
+    color: #fff;
+}
+*/
+
+.buttons .save_btn {
+    background-color: blue;
+    color: #fff;
+}
+
+.hide {
+    display: none;
+}
+
+#popup {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    padding: 10px;
+    resize: none;
+    outline: none;
+    border: 1px solid #ddd;
+    background-color: #fff;
+}
+
+#popup textarea {
+    resize: none;
+    outline: none;
+    margin-top: 20px;
+    border: 1px solid #ddd;
+    width: 100%;
+    min-height: 250px;
+    padding: 8px;
+    box-sizing: border-box;
+    font-size: 16px;
+    -webkit-user-select: text;
+}
+
+
+/*</style><style media="" data-href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">.toast-title{font-weight:700}.toast-message{-ms-word-wrap:break-word;word-wrap:break-word}.toast-message a,.toast-message label{color:#fff}.toast-message a:hover{color:#ccc;text-decoration:none}.toast-close-button{position:relative;right:-.3em;top:-.3em;float:right;font-size:20px;font-weight:700;color:#fff;-webkit-text-shadow:0 1px 0 #fff;text-shadow:0 1px 0 #fff;opacity:.8;-ms-filter:alpha(Opacity=80);filter:alpha(opacity=80)}.toast-close-button:focus,.toast-close-button:hover{color:#000;text-decoration:none;cursor:pointer;opacity:.4;-ms-filter:alpha(Opacity=40);filter:alpha(opacity=40)}button.toast-close-button{padding:0;cursor:pointer;background:0 0;border:0;-webkit-appearance:none}.toast-top-center{top:0;right:0;width:100%}.toast-bottom-center{bottom:0;right:0;width:100%}.toast-top-full-width{top:0;right:0;width:100%}.toast-bottom-full-width{bottom:0;right:0;width:100%}.toast-top-left{top:12px;left:12px}.toast-top-right{top:12px;right:12px}.toast-bottom-right{right:12px;bottom:12px}.toast-bottom-left{bottom:12px;left:12px}#toast-container{position:fixed;z-index:999999}#toast-container *{-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box}#toast-container>div{position:relative;overflow:hidden;margin:0 0 6px;padding:15px 15px 15px 50px;width:300px;-moz-border-radius:3px;-webkit-border-radius:3px;border-radius:3px;background-position:15px center;background-repeat:no-repeat;-moz-box-shadow:0 0 12px #999;-webkit-box-shadow:0 0 12px #999;box-shadow:0 0 12px #999;color:#fff;opacity:.8;-ms-filter:alpha(Opacity=80);filter:alpha(opacity=80)}#toast-container>:hover{-moz-box-shadow:0 0 12px #000;-webkit-box-shadow:0 0 12px #000;box-shadow:0 0 12px #000;opacity:1;-ms-filter:alpha(Opacity=100);filter:alpha(opacity=100);cursor:pointer}#toast-container>.toast-info{background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAGwSURBVEhLtZa9SgNBEMc9sUxxRcoUKSzSWIhXpFMhhYWFhaBg4yPYiWCXZxBLERsLRS3EQkEfwCKdjWJAwSKCgoKCcudv4O5YLrt7EzgXhiU3/4+b2ckmwVjJSpKkQ6wAi4gwhT+z3wRBcEz0yjSseUTrcRyfsHsXmD0AmbHOC9Ii8VImnuXBPglHpQ5wwSVM7sNnTG7Za4JwDdCjxyAiH3nyA2mtaTJufiDZ5dCaqlItILh1NHatfN5skvjx9Z38m69CgzuXmZgVrPIGE763Jx9qKsRozWYw6xOHdER+nn2KkO+Bb+UV5CBN6WC6QtBgbRVozrahAbmm6HtUsgtPC19tFdxXZYBOfkbmFJ1VaHA1VAHjd0pp70oTZzvR+EVrx2Ygfdsq6eu55BHYR8hlcki+n+kERUFG8BrA0BwjeAv2M8WLQBtcy+SD6fNsmnB3AlBLrgTtVW1c2QN4bVWLATaIS60J2Du5y1TiJgjSBvFVZgTmwCU+dAZFoPxGEEs8nyHC9Bwe2GvEJv2WXZb0vjdyFT4Cxk3e/kIqlOGoVLwwPevpYHT+00T+hWwXDf4AJAOUqWcDhbwAAAAASUVORK5CYII=)!important}#toast-container>.toast-error{background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAHOSURBVEhLrZa/SgNBEMZzh0WKCClSCKaIYOED+AAKeQQLG8HWztLCImBrYadgIdY+gIKNYkBFSwu7CAoqCgkkoGBI/E28PdbLZmeDLgzZzcx83/zZ2SSXC1j9fr+I1Hq93g2yxH4iwM1vkoBWAdxCmpzTxfkN2RcyZNaHFIkSo10+8kgxkXIURV5HGxTmFuc75B2RfQkpxHG8aAgaAFa0tAHqYFfQ7Iwe2yhODk8+J4C7yAoRTWI3w/4klGRgR4lO7Rpn9+gvMyWp+uxFh8+H+ARlgN1nJuJuQAYvNkEnwGFck18Er4q3egEc/oO+mhLdKgRyhdNFiacC0rlOCbhNVz4H9FnAYgDBvU3QIioZlJFLJtsoHYRDfiZoUyIxqCtRpVlANq0EU4dApjrtgezPFad5S19Wgjkc0hNVnuF4HjVA6C7QrSIbylB+oZe3aHgBsqlNqKYH48jXyJKMuAbiyVJ8KzaB3eRc0pg9VwQ4niFryI68qiOi3AbjwdsfnAtk0bCjTLJKr6mrD9g8iq/S/B81hguOMlQTnVyG40wAcjnmgsCNESDrjme7wfftP4P7SP4N3CJZdvzoNyGq2c/HWOXJGsvVg+RA/k2MC/wN6I2YA2Pt8GkAAAAASUVORK5CYII=)!important}#toast-container>.toast-success{background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAADsSURBVEhLY2AYBfQMgf///3P8+/evAIgvA/FsIF+BavYDDWMBGroaSMMBiE8VC7AZDrIFaMFnii3AZTjUgsUUWUDA8OdAH6iQbQEhw4HyGsPEcKBXBIC4ARhex4G4BsjmweU1soIFaGg/WtoFZRIZdEvIMhxkCCjXIVsATV6gFGACs4Rsw0EGgIIH3QJYJgHSARQZDrWAB+jawzgs+Q2UO49D7jnRSRGoEFRILcdmEMWGI0cm0JJ2QpYA1RDvcmzJEWhABhD/pqrL0S0CWuABKgnRki9lLseS7g2AlqwHWQSKH4oKLrILpRGhEQCw2LiRUIa4lwAAAABJRU5ErkJggg==)!important}#toast-container>.toast-warning{background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAGYSURBVEhL5ZSvTsNQFMbXZGICMYGYmJhAQIJAICYQPAACiSDB8AiICQQJT4CqQEwgJvYASAQCiZiYmJhAIBATCARJy+9rTsldd8sKu1M0+dLb057v6/lbq/2rK0mS/TRNj9cWNAKPYIJII7gIxCcQ51cvqID+GIEX8ASG4B1bK5gIZFeQfoJdEXOfgX4QAQg7kH2A65yQ87lyxb27sggkAzAuFhbbg1K2kgCkB1bVwyIR9m2L7PRPIhDUIXgGtyKw575yz3lTNs6X4JXnjV+LKM/m3MydnTbtOKIjtz6VhCBq4vSm3ncdrD2lk0VgUXSVKjVDJXJzijW1RQdsU7F77He8u68koNZTz8Oz5yGa6J3H3lZ0xYgXBK2QymlWWA+RWnYhskLBv2vmE+hBMCtbA7KX5drWyRT/2JsqZ2IvfB9Y4bWDNMFbJRFmC9E74SoS0CqulwjkC0+5bpcV1CZ8NMej4pjy0U+doDQsGyo1hzVJttIjhQ7GnBtRFN1UarUlH8F3xict+HY07rEzoUGPlWcjRFRr4/gChZgc3ZL2d8oAAAAASUVORK5CYII=)!important}#toast-container.toast-bottom-center>div,#toast-container.toast-top-center>div{width:300px;margin:auto}#toast-container.toast-bottom-full-width>div,#toast-container.toast-top-full-width>div{width:96%;margin:auto}.toast{background-color:#030303}.toast-success{background-color:#51a351}.toast-error{background-color:#bd362f}.toast-info{background-color:#2f96b4}.toast-warning{background-color:#f89406}.toast-progress{position:absolute;left:0;bottom:0;height:4px;background-color:#000;opacity:.4;-ms-filter:alpha(Opacity=40);filter:alpha(opacity=40)}@media all and (max-width:240px){#toast-container>div{padding:8px 8px 8px 50px;width:11em}#toast-container .toast-close-button{right:-.2em;top:-.2em}}@media all and (min-width:241px) and (max-width:480px){#toast-container>div{padding:8px 8px 8px 50px;width:18em}#toast-container .toast-close-button{right:-.2em;top:-.2em}}@media all and (min-width:481px) and (max-width:768px){#toast-container>div{padding:15px 15px 15px 50px;width:25em}}</style><style media="" data-href="https://fonts.googleapis.com/css?family=Open+Sans:400,300">/* cyrillic-ext */
+/*</style><script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script></head>
+*/
+<body>
+    <div class="cont">
+        <div class="left">
+            <header>
+                <div class="logo">Survey Creator</div>
+            </header>
+            <div class="form_section">
+                <div class="noSurvey" style="display: none;">
+                    <p>This tool allows you to create Surveys with Ease</p>
+                    <div class="btn">Create</div>
+                </div>
+                <div id="form" class="">
+                    <label for="sur_title">
+                        <p>Title</p>
+                        <input type="text" id="sur_title" placeholder="Name your Survey">
+                    </label>
+                    <label for="sur_desc">
+                        <p>Description</p>
+                        <textarea id="sur_desc" placeholder="What's this survey about?"></textarea>
+                    </label>
+                    <label for="sur_points">
+                        <p>Points</p>
+                        <input type="number" min="0" id="sur_points" placeholder="Name your Survey">
+                    </label>
+                    <div class="questions">
+                        
+                    <label>
+                            <p>Question 1</p>
+                            <input type="text" placeholder="Type your question here">
+                        </label></div>
+                    <div class="buttons">
+                        <!--<div class="json_btn btn">Get Json</div>-->
+                        <div class="add_btn btn">Add Question</div>
+                        <div class="save_btn btn">Save</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="right">
+            <!--<div class="title">SURVEYS</div>-->
+            <div class="surveyList">
+                <div class="list"><div class="surveyItem dummy">
+                        <div class="title">dssdf</div>
+                        <div class="icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 528.899 528.899" style="enable-background:new 0 0 528.899 528.899;" xml:space="preserve">
+                                <g>
+                                    <path d="M328.883,89.125l107.59,107.589l-272.34,272.34L56.604,361.465L328.883,89.125z M518.113,63.177l-47.981-47.981   c-18.543-18.543-48.653-18.543-67.259,0l-45.961,45.961l107.59,107.59l53.611-53.611   C532.495,100.753,532.495,77.559,518.113,63.177z M0.3,512.69c-1.958,8.812,5.998,16.708,14.811,14.565l119.891-29.069   L27.473,390.597L0.3,512.69z"></path>
+                                </g>
+                            </svg>
+                        </div>
+                    </div></div>
+                <div class="surveyItem create">
+                    <div class="title">+ create</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="popup" class="" style="display: none;">
+        <!--<div class="title"> JSON </div>-->
+        <textarea onclick="this.select()" readonly=""></textarea>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script>
+    (function app() {
+
+
+        var form;
+
+        function init() {
+
+            form = new SurveyView();
+            form.init();
+            SurveyController.init();
+
+            toastr.options = {
+                "closeButton": false,
+                "debug": false,
+                "newestOnTop": false,
+                "progressBar": false,
+                "positionClass": "toast-bottom-right",
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": "5000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            }
+            return this;
+        }
+
+        function SurveyView() {
+            var elems = {
+                create_btn: $('.noSurvey .btn'),
+                create_right_btn: $('.surveyItem.create'),
+                save_btn: $('.save_btn'),
+                add_btn: $('.add_btn'),
+                toJSON_btn: $('.json_btn'),
+                form: $('#form'),
+                survey_tmp: $('.surveyItem'),
+                no_survey: $('.noSurvey'),
+                dummy_question: $('.questions label'),
+                dummy_survey_item: $('.surveyItem.dummy'),
+                survey_list: $('.surveyList .list'),
+                popup: $("#popup")
+            };
+
+
+            function emptyForm() {
+                elems.form.find('input[type="text"], input[type="number"], textarea').val("");
+                elems.form.find('.questions label').slice(1).remove();
+            }
+
+            function showForm() {
+                elems.form.removeClass('hide');
+            }
+
+            function fillForm(data) {
+                var title = data.title || "";
+                var description = data.description || "";
+                var points = data.points || 0;
+
+                elems.form.find('#sur_title').val(title);
+                elems.form.find('#sur_desc').val(description);
+                elems.form.find('#sur_points').val(points);
+
+                if (data.questions.length > 0) {
+                    elems.form.find('.questions label').remove();
+                }
+
+                data.questions.forEach(function(q, i) {
+                    addQuestion(q, i);
+                });
+
+
+            }
+
+
+            function newForm() {
+                emptyForm();
+                showForm();
+                elems.no_survey.hide();
+            }
+
+            function addQuestion(title, index) {
+                var q = elems.dummy_question.clone();
+                q.find('input').val(title);
+                q.find('p').text('Question ' + (index + 1));
+                elems.form.find('.questions').append(q);
+            }
+
+            function addEmptyQuestion() {
+                var index = +elems.form.find('.questions label').length;
+                addQuestion('', index);
+            }
+
+            function saveSurvey() {
+                var title = elems.form.find('#sur_title').val();
+                var description = elems.form.find('#sur_desc').val();
+                var points = elems.form.find('#sur_points').val();
+                var questions = elems.form.find('.questions label');
+
+                SurveyController.addSurvey(title, description, points, questions);
+                emptyForm();
+
+            }
+
+            function addSurveyItem(surveyModel) {
+                var survey_item = elems.dummy_survey_item.clone();
+                survey_item.find('.title').text(surveyModel.title);
+                survey_item.click(function() {
+                    newForm();
+                    fillForm(surveyModel);
+                    SurveyController.currentInstance = surveyModel;
+                });
+                elems.survey_list.append(survey_item);
+
+            }
+
+            function showPopup(text) {
+                elems.popup.removeClass('hide').show();
+                elems.popup.find("textarea").val(text);
+            }
+
+            /*function showJson() {
+                var title = elems.form.find('#sur_title').val();
+                var description = elems.form.find('#sur_desc').val();
+                var points = elems.form.find('#sur_points').val();
+                var questions = elems.form.find('.questions label');
+
+                var survey = new SurveyModel(title, description, points);
+
+                questions.each(function() {
+                    survey.addQuestion($(this).find('input').val());
+                });
+
+                var errors = SurveyController.validate(survey);
+
+                if (errors) {
+                    for (var key in errors) {
+                        errors[key].forEach(function(error) {
+                            toastr["warning"](capitalize(key) + " " + error);
+                        });
+                    }
+
+                } else {
+                    showPopup(survey.getJSON());
+                }
+            }*/
+
+            this.init = function() {
+                emptyForm();
+                elems.dummy_survey_item = elems.dummy_survey_item.removeClass('hide').remove();
+                elems.dummy_question = elems.dummy_question.clone();
+                $('body').click(function(e) {
+                    if ($.contains(elems.popup[0], e.target) || $(e.target).is(elems.popup) || $(e.target).is(elems.toJSON_btn)) return;
+                    elems.popup.hide();
+                });
+                //events
+                elems.create_btn.click(newForm);
+                elems.create_right_btn.click(newForm);
+                elems.add_btn.click(addEmptyQuestion);
+                elems.save_btn.click(saveSurvey);
+                elems.toJSON_btn.click(showJson);
+            };
+
+            this.renderSurveyItems = function(data) {
+                elems.survey_list.empty();
+                data.forEach(function(surveyModel) {
+                    addSurveyItem(surveyModel);
+                });
+            };
+
+        }
+
+
+
+
+        //Survey Controller
+
+        var SurveyController = {
+            surveys: [],
+            currentInstance: null
+        };
+
+        window.sur = SurveyController.surveys;
+        SurveyController._save = function() {
+            localStorage.setItem('surveys', JSON.stringify(this.surveys));
+            return this;
+        };
+
+        SurveyController._load = function() {
+            var json = localStorage.getItem('surveys');
+            if (json == 'undefined' || json == undefined || json == "") {
+                return;
+            }
+            var objs = JSON.parse(json);
+            var surveys = [];
+
+            objs.forEach(function(s) {
+
+                var sur = new SurveyModel(s['title'], s["description"], s["points"], s["questions"]);
+                surveys.push(sur);
+            });
+
+
+
+            this.surveys = surveys;
+            return this;
+        };
+
+        SurveyController.addSurvey = function(title, description, points, questions) {
+            var survey = new SurveyModel(title, description, points);
+            questions.each(function() {
+                survey.addQuestion($(this).find('input').val());
+            });
+
+            //update or save new
+            if (this.currentInstance == null) {
+                this.surveys.push(survey);
+            } else {
+                var index = this.surveys.indexOf(this.currentInstance);
+                if (index > -1) {
+                    this.surveys[index].title = survey.title;
+                    this.surveys[index].points = survey.points;
+                    this.surveys[index].description = survey.description;
+                    this.surveys[index].questions = survey.questions;
+
+                    this.currentInstance = null;
+                } else {
+                    this.surveys.push(survey);
+                }
+            }
+
+            this._save();
+
+            form.renderSurveyItems(this.surveys);
+        };
+
+        SurveyController.validate = function(surveyModel) {
+            // title - A string containing less than 100 characters
+            // pointValue - A positive integer
+            // description - A string containing less than 500 characters
+            // questions - A variable list of question objects containing titles. Survey's must contain at least one question
+            var errors = {};
+            if (surveyModel.title.length > 100) {
+                errors["title"] = errors["title"] || [];
+                errors["title"].push('must be less than 100 characters!');
+            }
+            if (surveyModel.points < 0) {
+                errors["points"] = errors["points"] || [];
+                errors["points"].push('must be a positive Number!');
+            }
+            if (surveyModel.description.length > 500) {
+                errors["description"] = errors["description"] || [];
+                errors["description"].push('must be below 500 characters!');
+            }
+            if (surveyModel.questions.length < 1) {
+                errors["questions"] = errors["questions"] || [];
+                errors["questions"].push('? Must have at least 1 question!');
+            }
+            return (Object.keys(errors).length == 0) ? null : errors;
+        };
+
+        SurveyController.init = function() {
+            this._load();
+            console.log(this.surveys);
+            form.renderSurveyItems(this.surveys);
+        };
+
+
+
+
+        //Survey Model
+
+        function SurveyModel(title, description, points, questions) {
+            this.title = title;
+            this.description = description;
+            this.points = parseInt(points);
+            this.questions = questions || [];
+        }
+
+
+        SurveyModel.prototype.addQuestion = function(title) {
+            if (title.trim() == "") return;
+            this.questions.push(title);
+        };
+
+        SurveyModel.prototype.getJSON = function() {
+            var obj = {};
+            obj.title = this.title;
+            obj.description = this.description;
+            obj.pointValue = this.points;
+            obj.questions = [];
+
+            this.questions.forEach(function(question) {
+                obj.questions.push({
+                    'title': question
+                });
+            });
+            return JSON.stringify(obj);
+        };
+
+
+
+        //utils
+        function capitalize(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+
+        return init();
+
+    })();
+    </script>
+
+
+
+</body></html> 
+
+
+
+
+
+
+
+
+
