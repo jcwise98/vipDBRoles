@@ -23,6 +23,7 @@
     <script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-database.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-auth.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-firestore.js"></script>
     <style>
         .button {
             background-color: #4CAF50;
@@ -60,6 +61,9 @@
             <span>Success!</span>
         </div>
     </div>
+	
+  <input type="button" id="input" onclick="inputSurvey()" value="Get Survey">
+  <input type="button" id="input" onclick="clearSurvey()" value="Clear Survey">
 
 
 
@@ -91,6 +95,150 @@
                 window.location.href = 'https://vipdbroles.firebaseapp.com/index.html'//put url here
             });
         });
+		
+				//replace surveyid with an actual survey id somehow
+		let ref = firebase.database().ref("surveys/surveyid");
+		let questionList = [];
+
+		//Get the survey from the database
+		function inputSurvey(){
+		  ref.once("value").then(function(snapshot) {
+			var survey = {};
+			//Get title
+			survey.title = snapshot.child("title").val();
+			
+			//Get each question
+			survey.questions = [];
+			snapshot.child("questions").forEach(function (questionSnapshot){
+			  var q = {};
+			  q.question = questionSnapshot.child("question").val();
+			  q.type = questionSnapshot.child("type").val();
+			  q.tag = questionSnapshot.child("tag").val();
+			  
+			  //If questions has multiple options, get them
+			  if(questionSnapshot.child("options").exists()){
+				q.options = [];
+				questionSnapshot.child("options").forEach(function (optionSnapshot){
+				  var option = optionSnapshot.val();
+				  q.options.push(option);
+				});
+			  }
+			  
+			  survey.questions.push(q);
+			});
+			renderSurvey(survey);
+		  });
+		  
+		}
+
+		//Display survey 
+		function renderSurvey(survey){
+		  if(!document.getElementById("form")){
+			//Create form
+			var element = document.createElement("form");
+			var form = document.body.appendChild(element);
+			form.setAttribute("id", "form");
+			
+			//Create title
+			element = document.createElement("h1");
+			var label = document.createTextNode(survey.title);
+			element.appendChild(label);
+			form.appendChild(element);
+
+			//Create each question
+			for (i = 0; i < survey.questions.length; i++){
+			  element = document.createElement("p");
+			  label = document.createTextNode(survey.questions[i].question);
+			  element.appendChild(label);
+			  form.appendChild(element);
+
+			  //Switch for each type of question
+			  var type = survey.questions[i].type;
+			  var name = survey.questions[i].tag;
+			  questionList.push(name);
+			  
+			  switch (type) {
+				case "text":
+				  element = document.createElement("INPUT");
+				  element.setAttribute("type", type);
+				  element.setAttribute("name", name);
+				  form.appendChild(element);
+				  break;
+				case "radio": case "checkbox":
+				  for (j = 0; j < survey.questions[i].options.length; j++){
+					element = document.createElement("INPUT");
+					element.setAttribute("type", type);
+					element.setAttribute("name", name);
+					element.setAttribute("value", survey.questions[i].options[j])
+					form.appendChild(element);
+					
+					element = document.createElement("label");
+					label = document.createTextNode(survey.questions[i].options[j]);
+					element.appendChild(label);
+					form.appendChild(element);
+					form.appendChild(document.createElement("br"));
+					
+				  }
+				  break;
+			  }
+			}
+			form.appendChild(document.createElement("br"));
+			
+			var submit = document.createElement("INPUT");
+			submit.setAttribute("type", "button")
+			submit.setAttribute("value", "Submit");
+			submit.setAttribute("onclick", "sendSurvey()");
+			form.appendChild(submit);
+		  }
+		}
+
+		//Clear survey from website
+		function clearSurvey(){
+		  if(document.getElementById("form")){
+			var survey = document.getElementById("form");
+			document.body.removeChild(survey);
+		  }
+		}
+
+		//Send survey to database
+
+		function sendSurvey(){
+		  var response = {};
+		  for (var i = 0; i < questionList.length; i++) {
+			var name = questionList[i];
+			var question = document.getElementsByName(name);
+			var type = question[i].type;
+
+			switch (type) {
+			  case "text":
+				response[name] = question[0].value;
+				break;
+			  case "radio":
+				for (var j = 0; j < question.length; j++) {
+				  if (question[j].checked) {
+					response[name] = question[j].value;
+					break;
+				  }
+				}
+				break;
+			  case "checkbox":
+				var results = [];
+				for (var j = 0; j < question.length; j++) {
+				  if (question[j].checked) {
+					results.push(question[j].value);
+				  }
+				}
+				response[name] = results;
+				break;
+			}
+		  }
+		  
+		  response.time = firebase.firestore.Timestamp.fromDate(new Date());
+		  
+		  //replace this with a parent key that is the user id
+		  let newRef = firebase.database().ref("results/surveyid").push();
+		  newRef.set(response);
+		}
 
     </script>
 
