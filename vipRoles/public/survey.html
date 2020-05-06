@@ -236,7 +236,7 @@
 		  response.time = firebase.firestore.Timestamp.fromDate(new Date());
 		  
 		  //replace this with a parent key that is the user id
-		  let newRef = firebase.database().ref("results/surveyid").push();
+		  let newRef = firebase.database().ref("results/surveyid").child(firebase.auth().currentUser.uid);
 		  newRef.set(response);
 		}
 
